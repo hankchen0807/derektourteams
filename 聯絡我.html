@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>聯絡我</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #0e0e0e;
+            color: #ffffff;
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #333;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .navbar {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px 20px;
+            border: 1px solid #00ffff;
+            border-radius: 8px;
+            box-shadow: 0 0 12px #00ffff;
+            animation: pulse 1.5s infinite;
+        }
+        .navbar a {
+            color: #00ffff;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+        .navbar a:hover {
+            color: #ffffff;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 12px #00ffff; }
+            50% { box-shadow: 0 0 20px #00e5ff; }
+            100% { box-shadow: 0 0 12px #00ffff; }
+        }
+        h1 {
+            text-align: center;
+            color: #00ffff;
+            animation: glow 1.5s infinite alternate;
+        }
+        @keyframes glow {
+            from { text-shadow: 0 0 5px #00ffff; }
+            to { text-shadow: 0 0 20px #00e5ff; }
+        }
+        .description {
+            text-align: center;
+            margin: 15px 0;
+            color: #b0e0e6;
+        }
+        .profile-pic {
+            display: block;
+            margin: 20px auto;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid #00ffff;
+            box-shadow: 0 0 12px #00ffff;
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            color: #00ffff;
+            font-weight: bold;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            background: #1e1e1e;
+            border: 1px solid #00ffff;
+            border-radius: 5px;
+            color: #ffffff;
+            transition: box-shadow 0.3s ease-in-out;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            box-shadow: 0 0 15px #00ffff;
+        }
+        button {
+            margin-top: 20px;
+            padding: 12px 20px;
+            background: linear-gradient(145deg, #00e5ff, #00bcd4);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.2s, transform 0.2s;
+        }
+        button:hover {
+            background: #00ffff;
+            transform: scale(1.05);
+            box-shadow: 0 0 15px #00ffff;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="樂哥旅行團.html">回首頁</a>
+
+    </div>
+    <img src="S__79216645_0.jpg" alt="Profile Picture" class="profile-pic">
+    <h1>聯絡我</h1>
+    <p class="description">如果您有任何問題或合作機會，歡迎隨時與我聯絡！</p>
+    <form action="https://formspree.io/f/xrbpakkw" method="POST">
+        <label for="name">姓名：</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">電子郵件：</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="phone">電話號碼：</label>
+        <input type="tel" id="phone" name="phone">
+        
+        <label for="message">想跟我說些什麼?</label>
+        <textarea id="message" name="message" rows="5" required></textarea>
+
+        <button type="submit">送出</button>
+    </form>
+</body>
+</html>

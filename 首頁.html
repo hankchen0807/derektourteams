@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>樂哥旅行團</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: black;
+    color: white;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background: url('your-image.jpg') no-repeat center center/cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+  }
+  h1 {
+    font-size: 3rem;
+    text-shadow: 0 0 20px #00d4ff;
+    animation: fadeIn 2s ease-in-out;
+  }
+  p {
+    font-size: 1.5rem;
+    margin-top: 10px;
+    animation: fadeIn 3s ease-in-out;
+  }
+  .cta-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    color: white;
+    background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+    border-radius: 30px;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+  .cta-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px #fcb045;
+  }
+  .social-icons {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .social-icons a {
+    font-size: 2rem;
+    color: white;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+  .social-icons a:hover {
+    color: #00d4ff;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero {
+    background-image: url("飯店.jpg");
+}
+</style>
+</head>
+<body>
+  <div class="hero">
+    <div class="overlay"></div>
+    <div class="hero-content">
+      <h1>樂哥旅行團</h1>
+      <p>歡迎你 探索我們的生活與熱情</p>
+      <a href="https://www.youtube.com/@DerekHankFamily" class="cta-button">瞭解更多</a>
+    </div>
+    <div class="social-icons">
+      <a href="https://www.instagram.com/yourprofile" target="_blank">📸</a>
+      <a href="https://www.facebook.com/yourprofile" target="_blank">📘</a>
+      <a href="https://www.youtube.com/yourchannel" target="_blank">▶️</a>
+    </div>
+  </div>
+</body>
+</html>

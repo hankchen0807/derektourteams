@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>關於我們</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        .container {
+            display: flex;
+            width: 90%;
+            max-width: 1400px;
+            background: white;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            overflow: hidden;
+            padding: 20px;
+        }
+        .left {
+            flex: 1;
+            background: url("海灘.jpg") no-repeat center center/cover;
+            position: relative;
+            min-height: 500px;
+        }
+        .social-icons {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .social-icons a {
+            display: block;
+            width: 50px;
+            height: 50px;
+            background: red;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 50px;
+            color: white;
+            font-size: 24px;
+            text-decoration: none;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .social-icons a:nth-child(1) { background: #E1306C; } /* Instagram */
+        .social-icons a:nth-child(2) { background: #3b5998; } /* Facebook */
+        .social-icons a:nth-child(3) { background: #ff0000; } /* YouTube */
+        .right {
+            flex: 1;
+            padding: 60px;
+        }
+        .right h2 {
+            font-size: 40px;
+            margin-bottom: 20px;
+            color: #222;
+        }
+        .right p {
+            font-size: 20px;
+            line-height: 2;
+            color: #444;
+            text-align: justify;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left">
+            <div class="social-icons">
+                <a href="#" target="_blank">📸</a>
+                <a href="#" target="_blank">📘</a>
+                <a href="#" target="_blank">▶️</a>
+            </div>
+        </div>
+        <div class="right">
+            <h2>About Teams</h2>
+            <p>
+                樂哥旅行團創立於2022年。團名由來是我們的樂哥，那時候因為這樣所以首先我們做了屬於我們的布條；
+                接著在2023年的月底我們製作團服至今一直在往我們的下一個里程碑前進。
+                我們是一群假日就會聚在一起的朋友圈，不管是到哪裡玩都可以瘋狂的喝酒、一起受廢、去渡假、唱歌。
+                不管要幹嘛兄弟姊妹都必須相挺到底，相信我們可以一起完成所有我們想要完成的事情。
+                在每一次的聚會，不管是朋友、家人都會珍惜每一個時刻，紀錄下來！
+            </p>
+        </div>
+    </div>
+</body>
+</html>

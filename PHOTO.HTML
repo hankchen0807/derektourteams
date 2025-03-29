@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>團體個人網頁</title>
+    <style>
+         * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0a0f24;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            background: url("封面.JPG") no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .nav {
+        position: fixed;
+        top: 0;
+        right: 20px;  /* 讓導覽行靠右對齊 */
+        display: flex;
+        gap: 20px;
+        padding: 15px 0;
+        z-index: 100;
+        justify-content: center;  /* 確保導覽項目在行內置中 */
+        align-items: center;  /* 讓項目垂直置中 */
+}
+
+        .nav a {
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            transition: transform 0.3s;
+        }
+        .nav a:hover {
+            transform: scale(1.1);
+        }
+        @keyframes floatText {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); } /* 向上浮動 */
+    100% { transform: translateY(0); }
+}
+        .hero-text h1 { 
+    font-size: 70px;
+    font-weight: bold; 
+    color: #FAEBD7; /* 白杏仁色 */
+    text-shadow: 5px 3px 10px rgba(0, 0, 0, 0.6);
+    font-family: "Playfair Display", serif;
+    letter-spacing: 2px;
+    line-height: 1.2;
+    animation: floatText 3s infinite ease-in-out; /* 設定動畫 */
+}
+@keyframes fadeInUp {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+.hero-text p {
+    font-size: 30px;
+    color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    animation: fadeInUp 1.5s ease-out; /* 設定動畫 */
+}
+        .section {
+            padding: 80px 20px;
+            text-align: center;
+            background: #11152b;
+            border-radius: 15px;
+            margin: 40px auto;
+            max-width: 80%;
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+        }
+        .about-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: left;
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            color: black;
+            border-radius: 15px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        .about-content {
+            display: flex;
+            width: 100%;
+            padding: 20px;
+        }
+        .left {
+            flex: 1;
+            background: url("海灘.jpg") no-repeat center center/cover;
+            min-height: 500px;
+            position: relative;
+        }
+        .social-icons {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .social-icons a {
+            display: block;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 50px;
+            color: white;
+            font-size: 24px;
+            text-decoration: none;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .social-icons a:nth-child(1) { background: #E1306C; } /* Instagram */
+        .social-icons a:nth-child(2) { background: #3b5998; } /* Facebook */
+        .social-icons a:nth-child(3) { background: #ff0000; } /* YouTube */
+        .right {
+            flex: 1;
+            padding: 40px;
+        }
+        .right h2 {
+            font-size: 50px; /* 調整標題大小 */
+            font-weight: bold; /* 加粗標題 */
+            margin-bottom: 20px;
+            color: #222;
+            text-align: center;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3); /* 添加陰影 */
+        }
+
+        .right p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #444;
+            text-align: justify;
+        }
+        .gallery {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            padding: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        .lightbox img {
+            max-width: 95%;
+            max-height: 95%;
+            border-radius: 15px;
+        }
+        .subscription-section {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        background-image: url("S__79183894_0.jpg");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+
+    }
+
+    .subscription-content {
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.7);  /* 增加背景不透明度，提升可讀性 */
+    padding: 40px;  /* 增加內邊距讓框更大 */
+    border-radius: 10px;
+    width: 80%;  /* 讓框占頁面較大寬度 */
+    max-width: 500px;  /* 設置最大寬度 */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);  /* 陰影效果 */
+}
+
+    .subscribe-link {
+        text-decoration: none; /* 去掉連結的底線 */
+    }
+
+    .subscribe-button {
+        padding: 15px 30px;
+        background-color:#ff0000;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    .subscribe-button:hover {
+        background-color: #e68a00;
+    }
+    html {
+    scroll-behavior: smooth; /* 啟用平滑滾動 */
+}
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="hero-text">
+            <h1>樂哥旅行團</h1>
+            <h2>與我們一起，享受每一段精彩的旅程</h2>
+        </div>
+    </div>
+
+    <div class="nav">
+        <a href="#about">關於我們</a>
+        <a href="#PHOTO">照片牆</a>
+        <li><a href="#subscription">YouTube</a></li> <!-- 這裡的 #subscription 是指向訂閱區塊的錨點 -->
+        <!-- 可以再添加其他的導覽選項 -->
+        <a href="#video">影片介紹</a>
+        <a href="#contact">聯絡我們</a>
+    </div>
+
+    <div id="about" class="section">
+        <h2>關於我們</h2>
+        <div class="about-container">
+            <div class="about-content">
+                <div class="left">
+                    <div class="social-icons">
+                    </div>
+                </div>
+                <div class="right">
+                    <h2>我們的故事</h2>
+                    <p>
+                        我們是一群假日總是聚在一起的一群朋友，無論天氣如何、工作有多忙，總是會找個時間見面。這不僅僅是朋友聚會，而是我們的生活方式！每當週末來臨，大家總會在一起狂歡，不管是去唱歌、旅行，或是單純的聚會，我們都能找到屬於自己的樂趣。
+                    </p>
+                    <p>
+                        我們的聚會總是充滿歡笑和溫馨的回憶，這也是為什麼我們一直保持著這麼深厚的友誼。每一個瞬間，我們都會彼此支持、共同成長。我們相信，這樣的關係會讓我們在未來的日子裡更有力量，去面對一切挑戰，並享受每一個美好的時刻。
+                    </p>
+                    <p>
+                        每一次的聚會，我們都會創造獨特的回憶，不論是遠足旅行、開懷大笑的餐聚，還是安靜的下午茶時光，我們珍惜每一個和彼此共度的日子。正因為這樣，我們成為了無可取代的夥伴，無論生活如何變化，我們的友誼都會持續下去，並且愈加牢固。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="PHOTO" class="section">
+        <h2>照片牆</h2>
+        <p>這片照片牆是我珍藏的回憶與故事的集合，每一張照片都承載著獨特的瞬間和情感。</p>
+            <P>無論是旅行的足跡、與朋友的歡笑，還是日常生活中的美好時刻，</P>
+            <P>每一張圖片都讓我回想起那段時光。希望透過這些影像，</P>
+            <P>您能感受到我對生活的熱愛與珍惜。</P>
+        <div class="gallery">
+            <figure class="gallery-item" onclick="openLightbox('S__79151109_0.jpg')">
+                <img src="S__79183891.jpg" alt="2022花蓮度假">
+                <figcaption>2022花蓮度假</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151109_0.jpg')">
+                <img src="S__79208453_0.jpg" alt="花蓮沙灘車">
+                <figcaption>花蓮沙灘車</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151109_0.jpg')">
+                <img src="S__79183886.jpg" alt="15週年 水晶婚紀念日">
+                <figcaption>15週年 水晶婚紀念日</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151109_0.jpg')">
+                <img src="S__79183883_0.jpg" alt="屏東東港港口">
+                <figcaption>屏東東港港口</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151109_0.jpg')">
+                <img src="S__79183884_0.jpg" alt="小琉球">
+                <figcaption>小琉球</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151109_0.jpg')">
+                <img src="S__79183882_0.jpg" alt="孫家祖廟竭祖">
+                <figcaption>孫家祖廟竭祖</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151109_0.jpg')">
+                <img src="S__79183881_0.jpg" alt="20230501慶生">
+                <figcaption>20230501慶生</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151109_0.jpg')">
+                <img src="S__79183877_0.jpg" alt="南投松柏嶺受天宮">
+                <figcaption>南投松柏嶺受天宮</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151108_0.jpg')">
+                <img src="S__79151114_0.jpg" alt="澎湖跨海大橋">
+                <figcaption>澎湖跨海大橋</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79151115_0.jpg" alt="小萍の店">
+                <figcaption>小萍の店</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79151116_0.jpg" alt="澎湖水族館">
+                <figcaption>澎湖水族館</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79151117_0.jpg" alt="澎湖天后宮">
+                <figcaption>澎湖天后宮</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79151120_0.jpg" alt=" 外婆的澎湖灣">
+                <figcaption> 外婆的澎湖灣</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79151121_0.jpg" alt=" 西嶼燈塔">
+                <figcaption>西嶼燈塔</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79151124_0.jpg" alt=" 海洋皇宮牧場">
+                <figcaption>海洋皇宮牧場</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79151125_0.jpg" alt="屏東恆春墾丁度假">
+                <figcaption>屏東恆春墾丁度假</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79183878_0.jpg" alt="20231027生日慶生">
+                <figcaption>20231027生日慶生</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79151126_0.jpg" alt="南投車程">
+                <figcaption>南投車程</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79208460.jpg" alt="迎接2024">
+                <figcaption>迎接2024</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79151130_0.jpg" alt="宜蘭娃娃國民宿">
+                <figcaption>宜蘭娃娃國民宿</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79151131_0.jpg" alt="道教總廟三清宮">
+                <figcaption>道教總廟三清宮</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79151133_0.jpg" alt="宜蘭傳藝園區">
+                <figcaption>宜蘭傳藝園區</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79208456_0.jpg" alt="2024 3月慶生">
+                <figcaption>2024 3月慶生</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79151136_0.jpg" alt="台北捷運">
+                <figcaption>台北捷運</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79151138_0.jpg" alt="大稻埕迪化街">
+                <figcaption>大稻埕迪化街</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79208459_0.jpg" alt="碧潭大橋">
+                <figcaption>碧潭大橋</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79208458_0.jpg" alt="新店捷運">
+                <figcaption>新店捷運</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79183894_0.jpg" alt="2024鹿耳門路跑">
+                <figcaption>2024鹿耳門路跑</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79183893_0.jpg" alt="路跑開跑預備">
+                <figcaption>路跑開跑預備</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79183895_0.jpg" alt="許家茶園">
+                <figcaption>許家茶園</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79183896_0.jpg" alt="韓國松月洞童話村">
+                <figcaption>韓國松月洞童話村</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79183898_0.jpg" alt="景福宮">
+                <figcaption>景福宮</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79208454_0.jpg" alt="妖怪村">
+                <figcaption>妖怪村</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79208455_0.jpg" alt="阿里山神木">
+                <figcaption>阿里山神木</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79208457_0.jpg" alt="恆春高山巖">
+                <figcaption>恆春高山巖</figcaption>
+            </figure>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+            <img src="S__79208494.jpg" alt="台東鐵路便當">
+            <figcaption>台東鐵路便當</figcaption>
+        </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79208451_0.jpg" alt="台東監獄">
+                <figcaption>台東監獄</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79208462_0.jpg" alt="2024中秋佳節烤肉">
+                <figcaption>2024中秋佳節烤肉</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79208463_0.jpg" alt="苗栗舊山線">
+                <figcaption>苗栗舊山線</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79208464_0.jpg" alt="雅聞湖濱療癒森林">
+                <figcaption>雅聞湖濱療癒森林</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79208465_0.jpg" alt="喝酒喝酒">
+                <figcaption>喝酒喝酒</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="台中鳳凰.jpg" alt="台中鳳凰酒店">
+                <figcaption>台中鳳凰酒店</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79208467.jpg" alt="王功海牛踩蚵車">
+                <figcaption>王功海牛踩蚵車</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79208468_0.jpg" alt="2024 10月慶生">
+                <figcaption>2024 10月慶生</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79208470_0.jpg" alt="YA!!!">
+                <figcaption>YA!!!</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79208471_0.jpg" alt="九族文化村馬雅探險">
+                <figcaption>九族文化村馬雅探險</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79208480_0.jpg" alt="聖誕節交換禮物">
+                <figcaption>聖誕節交換禮物</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79208482_0.jpg" alt="南投山福情深">
+                <figcaption>南投山福情深</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79208486_0.jpg"alt="烏來溫泉">
+                <figcaption>烏來溫泉</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79208484_0.jpg" alt="烏來大瀑布">
+                <figcaption>烏來大瀑布</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79208485_0.jpg"alt="平溪天燈">
+                <figcaption>平溪天燈</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79208481_0.jpg" alt="聖誕節大合照">
+                <figcaption>聖誕節大合照</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79208487_0.jpg"alt="新北野柳">
+                <figcaption>新北野柳</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79208488_0.jpg"alt="基隆彩虹屋">
+                <figcaption>基隆彩虹屋</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79208490_0.jpg"alt="過年大合照">
+                <figcaption>過年大合照</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79208491_0.jpg"alt="不厭亭">
+                <figcaption>不厭亭</figcaption>
+            </figure>
+            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
+                <img src="S__79208493_0.jpg"alt="觀音堂佛祖聖誕千秋">
+                <figcaption>觀音堂佛祖聖誕千秋</figcaption>
+            </figure>
+        </div>
+    </div>
+
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <img id="lightbox-img" src="" alt="">
+    </div>
+
+    <script>
+        function openLightbox(imageSrc) {
+            document.getElementById('lightbox-img').src = imageSrc;
+            document.getElementById('lightbox').classList.add('show');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('show');
+        }
+    </script>
+    <div>
+        <div id="subscription" class="subscription-section">
+        <div class="subscription-content">
+        <h2>訂閱我們的 YouTube 頻道，</h2>
+        <h3>隨時掌握最新影片！</h3>
+        <p>點擊訂閱，隨時獲得我們的最新影片、</p>
+        <P>獨家內容與精彩片段。加入我們的社群，</P>
+        <P> 一起探索更多有趣的影片，讓你不錯過每一個精彩瞬間！</p>
+        <a href="https://www.youtube.com/@DerekHankFamily" class="subscribe-link">
+            <button class="subscribe-button">訂閱我們</button>
+        </a>
+    </div>
+</div>
+</div>
+        </div>
+        <div id="video" class="section">
+            <h2>影片介紹</h2>
+            <div class="video-container">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/kF_ZZDSWfug" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    
+        <div id="contact" class="section">
+            <h2>聯絡我們</h2>
+            <p>您可以透過 email@example.com 聯繫我們。</p>
+        </div>
+    </body>
+    </html>
+    </div>
+</body>
+</html>
