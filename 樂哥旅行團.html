@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>團體個人網頁</title>
     <style>
+       
+       .container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
          * {
             margin: 0;
             padding: 0;
@@ -12,60 +19,98 @@
         }
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #0a0f24;
-            color: #ffffff;
+            background-color:lightsteelblue;
+            color:#f4f4f4;
             overflow-x: hidden;
-        }
-        .hero {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            background: url("飯店.jpg") no-repeat center center/cover;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-        .nav {
-        position: fixed;
-        top: 0;
-        right: 20px;  /* 讓導覽行靠右對齊 */
-        display: flex;
-        gap: 20px;
-        padding: 15px 0;
-        z-index: 100;
-        justify-content: center;  /* 確保導覽項目在行內置中 */
-        align-items: center;  /* 讓項目垂直置中 */
+        } 
+
+        /* 旅遊風格動畫 - 浮動雲朵 */
+@keyframes floatingClouds {
+    from { background-position: 0 0; }
+    to { background-position: -1000px 200px; }
+}
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: url("雲朵\ \(1\).png") repeat-x;
+    opacity: 0.5;
+    animation: floatingClouds 30s linear infinite;
+}
+  /* Hero 區塊 */
+.hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background: url("飯店.jpg") no-repeat center center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
-        .nav a {
-            color: #333;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 18px;
-            padding: 10px 15px;
-            border-radius: 5px;
-            background: linear-gradient(45deg, #ff416c, #ff4b2b);
-            transition: transform 0.3s;
-        }
-        .nav a:hover {
-            transform: scale(1.1);
-        }
-        @keyframes floatText {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-10px); } /* 向上浮動 */
-    100% { transform: translateY(0); }
+/* 滾動時導覽列變透明 */
+.nav {
+    position: fixed;
+    top: 0;
+    right: 20px;
+    display: flex;
+    gap: 20px;
+    padding: 15px 0;
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.5s ease-in-out;
 }
-        .hero-text h1 { 
+.nav.scrolled {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+.nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    transition: transform 0.3s, background 0.3s;
+}
+.nav a:hover {
+    transform: scale(1.1);
+    background: linear-gradient(45deg, #ff4b2b, #ff416c);
+}
+
+       /* 標題打字機動畫 */
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+.hero-text h1 {
     font-size: 70px;
-    font-weight: bold; 
-    color: #FAEBD7; /* 白杏仁色 */
-    text-shadow: 5px 3px 10px rgba(0, 0, 0, 0.6);
-    font-family: "Playfair Display", serif;
+    font-weight: 700; /* 使用較粗的字型重量 */
+    color: #ffffff;
+    text-shadow: 4px 2px 10px rgba(0, 0, 0, 0.5); /* 減少陰影的模糊度 */
+    font-family: '', sans-serif; /* 更新為 Roboto 字體 */
     letter-spacing: 2px;
-    line-height: 1.2;
-    animation: floatText 3s infinite ease-in-out; /* 設定動畫 */
+    line-height: 1.3;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 3px solid #fff;
+    width: 0;
+    animation: typing 4s steps(30, end) forwards, blink 0.75s step-end infinite;
 }
+
+
+@keyframes blink {
+    from, to { border-color: transparent; }
+    50% { border-color: white; }
+}
+/* 圖片滾動時淡入 */
 @keyframes fadeInUp {
     0% { opacity: 0; transform: translateY(20px); }
     100% { opacity: 1; transform: translateY(0); }
@@ -106,7 +151,7 @@
         }
         .left {
             flex: 1;
-            background: url("海灘.jpg") no-repeat center center/cover;
+            background: url("海灘.jpg") no-repeat center center/contain;
             min-height: 500px;
             position: relative;
         }
@@ -170,6 +215,7 @@
         .gallery-item:hover img {
             transform: scale(1.1);
         }
+        
         .lightbox img {
             max-width: 95%;
             max-height: 95%;
@@ -205,16 +251,18 @@
         text-decoration: none; /* 去掉連結的底線 */
     }
 
-    .subscribe-button {
-        padding: 15px 30px;
-        background-color:#ff0000;
-        color: white;
-        border: none;
-        border-radius: 10px;
-        font-size: 20px;
-        cursor: pointer;
-    }
-
+/* 按鈕點擊波紋效果 */
+.subscribe-button {
+    position: relative;
+    padding: 15px 30px;
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    overflow: hidden;
+}
     .subscribe-button:hover {
         background-color: #e68a00;
     }
@@ -347,6 +395,14 @@
 .contact-btn:hover {
     background-color: #0056b3;
 }
+       /* 頁尾 */
+       footer {
+            text-align: center;
+            padding: 20px;
+            background: #333;
+            color: white;
+            margin-top: 30px;
+        }
     </style>
 </head>
 <body>
@@ -396,7 +452,7 @@
             <P>每一張圖片都讓我回想起那段時光。希望透過這些影像，</P>
             <P>您能感受到我對生活的熱愛與珍惜。</P>
         <div class="gallery">
-            <figure class="gallery-item" onclick="openLightbox('S__79151109_0.jpg')">
+            <figure class="gallery-item" onclick="openLightbox('S__79183891.jpg')">
                 <img src="S__79183891.jpg" alt="2022花蓮度假">
                 <figcaption>2022花蓮度假</figcaption>
             </figure>
@@ -687,9 +743,18 @@
                 <a href="聯絡我.html" class="contact-btn">立即聯繫</a>
             </div>
     </body>
+
+
+    <!-- 頁尾 -->
+    <footer>
+        樂哥旅行團，2025，走出舒適圈，迎接每一個新的風景。
+    </footer>
+
     </html>
     </div>
 </body>
 </html>
+
+
 
 
