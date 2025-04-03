@@ -1,689 +1,1192 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>團體個人網頁</title>
-    <style>
-       
-       .container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+    <title>旅遊團體網站</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<style>
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
 }
 
-         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color:lightsteelblue;
-            color:#f4f4f4;
-            overflow-x: hidden;
-        } 
-
-        /* 旅遊風格動畫 - 浮動雲朵 */
-@keyframes floatingClouds {
-    from { background-position: 0 0; }
-    to { background-position: -1000px 200px; }
+body {
+    line-height: 1.6;
+    background-color: #f8f9fa;
 }
-body::before {
+
+/* Header 設定 */
+header {
+    background: url("S__79683589_0.jpg") center/cover no-repeat;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    position: relative;
+    color: white;
+    filter: brightness(100%); /* ⭐️ 降低亮度 */
+}
+
+
+/* 半透明遮罩，確保文字可讀 */
+header::before {
     content: "";
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100vh;
-    background: url("雲朵\ \(1\).png") repeat-x;
-    opacity: 0.5;
-    animation: floatingClouds 30s linear infinite;
-}
-  /* Hero 區塊 */
-.hero {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    background: url("飯店.jpg") no-repeat center center/cover;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7); /* ⭐️ 透明度 50% */
+    z-index: 1;
 }
 
-/* 滾動時導覽列變透明 */
-.nav {
-    position: fixed;
-    top: 0;
-    right: 20px;
+/* 讓內容不受遮罩影響 */
+header h1, nav, .menu-icon {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* 響應式設計（手機版） */
+@media (max-width: 768px) {
+    header {
+        height: 200px; /* ✅ 手機版高度適中 */
+        flex-direction: row;
+        padding: 15px 20px;
+    }
+}
+
+
+h1 {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* 導覽列設計 */
+nav {
     display: flex;
     gap: 20px;
-    padding: 15px 0;
-    z-index: 100;
-    justify-content: center;
-    align-items: center;
-    transition: background 0.5s ease-in-out;
 }
-.nav.scrolled {
-    background: rgba(0, 0, 0, 0.6);
-    padding: 10px 20px;
-    border-radius: 10px;
-}
-.nav a {
-    color: #fff;
+
+/* 導覽列的連結按鈕 */
+nav a {
+    color: white;
     text-decoration: none;
     font-weight: bold;
-    font-size: 18px;
     padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 5px;
-    background: linear-gradient(45deg, #ff416c, #ff4b2b);
-    transition: transform 0.3s, background 0.3s;
-}
-.nav a:hover {
-    transform: scale(1.1);
-    background: linear-gradient(45deg, #ff4b2b, #ff416c);
+    transition: background 0.3s;
 }
 
-       /* 標題打字機動畫 */
-@keyframes typing {
-    from { width: 0; }
-    to { width: 100%; }
-}
-.hero-text h1 {
-    font-size: 70px;
-    font-weight: 700; /* 使用較粗的字型重量 */
-    color: #ffffff;
-    text-shadow: 4px 2px 10px rgba(0, 0, 0, 0.5); /* 減少陰影的模糊度 */
-    font-family: '', sans-serif; /* 更新為 Roboto 字體 */
-    letter-spacing: 2px;
-    line-height: 1.3;
-    overflow: hidden;
-    white-space: nowrap;
-    border-right: 3px solid #fff;
-    width: 0;
-    animation: typing 4s steps(30, end) forwards, blink 0.75s step-end infinite;
+nav a:hover {
+    background: rgba(255, 255, 255, 0.5);
 }
 
-
-@keyframes blink {
-    from, to { border-color: transparent; }
-    50% { border-color: white; }
-}
-/* 圖片滾動時淡入 */
-@keyframes fadeInUp {
-    0% { opacity: 0; transform: translateY(20px); }
-    100% { opacity: 1; transform: translateY(0); }
-}
-.hero-text p {
+/* 🔥 漢堡選單圖示（手機版） */
+.menu-icon {
+    display: none;
     font-size: 30px;
-    color: #ffffff;
-    font-family: 'Roboto', sans-serif;
-    line-height: 1.6;
-    animation: fadeInUp 1.5s ease-out; /* 設定動畫 */
-}
-        .section {
-            padding: 80px 20px;
-            text-align: center;
-            background: #11152b;
-            border-radius: 15px;
-            margin: 40px auto;
-            max-width: 80%;
-            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
-        }
-        .about-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: left;
-            max-width: 1400px;
-            margin: 0 auto;
-            background: white;
-            color: black;
-            border-radius: 15px;
-            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-        }
-        .about-content {
-            display: flex;
-            width: 100%;
-            padding: 20px;
-        }
-        .left {
-            flex: 1;
-            background: url("海灘.jpg") no-repeat center center/contain;
-            min-height: 500px;
-            position: relative;
-        }
-        .social-icons {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        .social-icons a {
-            display: block;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 50px;
-            color: white;
-            font-size: 24px;
-            text-decoration: none;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-        }
-        .social-icons a:nth-child(1) { background: #E1306C; } /* Instagram */
-        .social-icons a:nth-child(2) { background: #3b5998; } /* Facebook */
-        .social-icons a:nth-child(3) { background: #ff0000; } /* YouTube */
-        .right {
-            flex: 1;
-            padding: 40px;
-        }
-        .right h2 {
-            font-size: 50px; /* 調整標題大小 */
-            font-weight: bold; /* 加粗標題 */
-            margin-bottom: 20px;
-            color: #222;
-            text-align: center;
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3); /* 添加陰影 */
-        }
-
-        .right p {
-            font-size: 18px;
-            line-height: 1.8;
-            color: #444;
-            text-align: justify;
-        }
-        .gallery {
-            display: grid;
-            gap: 20px;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            padding: 40px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        .gallery-item img {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 15px;
-            transition: transform 0.3s ease;
-        }
-        .gallery-item:hover img {
-            transform: scale(1.1);
-        }
-        
-        .lightbox img {
-            max-width: 95%;
-            max-height: 95%;
-            border-radius: 15px;
-        }
-        .subscription-section {
-        position: relative;
-        width: 100%;
-        height: 100vh;
-        background-image: url("S__79183894_0.jpg");
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-
-    }
-
-    .subscription-content {
-    position: absolute;
-    bottom: 100px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
-    text-align: center;
-    background-color: rgba(0, 0, 0, 0.7);  /* 增加背景不透明度，提升可讀性 */
-    padding: 40px;  /* 增加內邊距讓框更大 */
-    border-radius: 10px;
-    width: 80%;  /* 讓框占頁面較大寬度 */
-    max-width: 500px;  /* 設置最大寬度 */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);  /* 陰影效果 */
-}
-
-    .subscribe-link {
-        text-decoration: none; /* 去掉連結的底線 */
-    }
-
-/* 按鈕點擊波紋效果 */
-.subscribe-button {
-    position: relative;
-    padding: 15px 30px;
-    background-color: #ff0000;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 20px;
     cursor: pointer;
-    overflow: hidden;
+    position: relative; /* 新增 */
+    z-index: 1000; /* 確保漢堡選單在最前面 */
 }
-    .subscribe-button:hover {
-        background-color: #e68a00;
+
+/* 📱【手機版】導覽列變成「下拉式選單」 */
+@media (max-width: 768px) {
+    header {
+        height: auto;
+        flex-direction: row;
+        padding: 15px 20px;
     }
-    html {
-    scroll-behavior: smooth; /* 啟用平滑滾動 */
+
+    /* 隱藏原本的導覽列，改用漢堡選單 */
+    nav {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 80px;
+        right: 20px;
+        background: rgba(0, 0, 0, 0.8);
+        border-radius: 8px;
+        width: 200px;
+        text-align: right;
+        padding: 10px;
+        z-index: 999; /* 確保選單在漢堡按鈕下面 */
+    }
+
+    nav a {
+        display: block;
+        padding: 12px;
+        font-size: 18px;
+    }
+
+    /* 顯示漢堡選單按鈕 */
+    .menu-icon {
+        display: block;
+    }
 }
-.video-intro {
+
+/* 關於我們 - 整體樣式 */
+#about {
+    background-color: #f8f9fa;
+    padding: 50px 10%;
+    text-align: center;
+}
+
+h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* 主要內容容器 - 左右對齊 */
+.about-container {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 60px 20px;
-    background-color: #f4f4f4; /* 背景顏色可以根據需求調整 */
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    margin: 50px 0;
+    justify-content: center;
+    gap: 50px;
+    text-align: left;
 }
 
-.video-thumbnail {
-    position: relative;
-    width: 50%;
-    max-width: 600px;
-    border-radius: 15px;
-    overflow: hidden;
-}
-
-.video-thumbnail img {
+/* 左邊圖片 */
+.left img {
     width: 100%;
-    height: auto;
-    border-radius: 15px;
-    transition: transform 0.3s ease;
+    max-width: 700px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
 }
 
-.video-thumbnail:hover img {
+/* 滑鼠移上圖片時，增加放大效果 */
+.left img:hover {
     transform: scale(1.05);
 }
 
+/* 右邊文字 */
+.right {
+    flex: 1;
+}
+
+.right h2 {
+    font-size: 28px;
+    color: #ff6f61;
+    margin-bottom: 15px;
+}
+
+.right p {
+    font-size: 18px;
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+/* 🎯 響應式設計 - 手機版調整 */
+@media (max-width: 768px) {
+    .about-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .left img {
+        max-width: 100%;
+    }
+
+    .right {
+        text-align: left;
+    }
+}
+
+.section {
+    padding: 50px;
+    text-align: center;
+}
+
+body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f5f5f5;
+        }
+
+        .gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 桌機版3列 */
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* 確保圖片縮放效果 */
+.gallery-item {
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+}
+
+.gallery-item:hover {
+    transform: scale(1.05);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+}
+
+/* 圖片標題 */
+.gallery-item figcaption {
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 0;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Lightbox 樣式 */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.lightbox.show {
+    display: flex;
+}
+
+.lightbox img {
+    max-width: 90%;
+    max-height: 80%;
+    border-radius: 10px;
+}
+
+/* ✅ 手機版調整 */
+@media (max-width: 1024px) {
+    .gallery {
+        grid-template-columns: repeat(2, 1fr); /* 平板變2列 */
+    }
+}
+
+@media (max-width: 768px) {
+    .gallery {
+        grid-template-columns: repeat(1, 1fr); /* 手機版變1列 */
+        gap: 15px; /* 減少間距，避免圖片太小 */
+    }
+
+    .gallery-item figcaption {
+        font-size: 12px; /* 手機版字體稍微縮小 */
+    }
+}
+/* 留言區塊，背景白色 */
+.comment-section {
+    width: 100%;
+    background: #ffffff;
+    padding: 40px 5%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+}
+
+/* 留言區塊內的容器（最大寬度） */
+.comment-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* 左側圖片 */
+.comment-image {
+    flex: 1;
+    max-width: 50%;
+    text-align: center;
+}
+
+.comment-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 右側內容 */
+.comment-content {
+    flex: 1;
+    max-width: 50%;
+    padding: 20px 30px;
+    color: #333;
+    text-align: left;
+}
+
+.comment-content h2 {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.comment-content h3 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.comment-content p {
+    font-size: 1.2em;
+    line-height: 1.5;
+    margin: 10px 0;
+}
+/* 留言按鈕（黃色） */
+.comment-button {
+    display: inline-block;
+    background-color: #FFC107;
+    color: #333;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 15px 30px;
+    margin-top: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.comment-button:hover {
+    background-color: #E0A800;
+    transform: scale(1.05);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+}
+
+
+/* RWD 響應式設計 */
+@media (max-width: 768px) {
+    .comment-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .comment-image,
+    .comment-content {
+        max-width: 100%;
+    }
+
+    .comment-image {
+        margin-bottom: 20px;
+    }
+
+    .comment-content {
+        padding: 0 20px;
+    }
+}
+
+/* Facebook 粉絲專頁區塊，背景白色 */
+.facebook-follow-section {
+    width: 100%;
+    background: #ffffff;
+    padding: 40px 5%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+}
+
+/* Facebook 粉絲專頁區塊內的容器（最大寬度） */
+.facebook-follow-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* 左側圖片 */
+.facebook-follow-image {
+    flex: 1;
+    max-width: 50%;
+    text-align: center;
+}
+
+.facebook-follow-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 右側內容 */
+.facebook-follow-content {
+    flex: 1;
+    max-width: 50%;
+    padding: 20px 30px;
+    color: #333;
+    text-align: left;
+}
+
+.facebook-follow-content h2 {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.facebook-follow-content h3 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.facebook-follow-content p {
+    font-size: 1.2em;
+    line-height: 1.5;
+    margin: 10px 0;
+}
+
+/* 追蹤按鈕 */
+.facebook-follow-button {
+    background-color: #1877F2;
+    color: #fff;
+    font-size: 1.2em;
+    font-weight: bold;
+    border: none;
+    padding: 15px 30px;
+    margin-top: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.facebook-follow-button:hover {
+    background-color: #145dbf;
+    transform: scale(1.05);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+}
+
+.facebook-follow-button:active {
+    background-color: #0d4b8e;
+}
+
+/* RWD 響應式設計 */
+@media (max-width: 768px) {
+    .facebook-follow-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .facebook-follow-image,
+    .facebook-follow-content {
+        max-width: 100%;
+    }
+
+    .facebook-follow-image {
+        margin-bottom: 20px;
+    }
+
+    .facebook-follow-content {
+        padding: 0 20px;
+    }
+}
+
+
+      /* 訂閱區塊，背景白色 */
+      .subscription-section {
+        width: 100%;
+        background: #ffffff;
+        padding: 40px 5%;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+    }
+
+    /* 訂閱區塊內的容器（最大寬度） */
+    .subscription-container {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 1200px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    /* 左側圖片 */
+    .subscription-image {
+        flex: 1;
+        max-width: 50%;
+        text-align: center;
+    }
+
+    .subscription-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* 右側內容 */
+    .subscription-content {
+        flex: 1;
+        max-width: 50%;
+        padding: 20px 30px;
+        color: #333;
+        text-align: left;
+    }
+
+    .subscription-content h2 {
+        font-size: 2em;
+        margin-bottom: 10px;
+    }
+
+    .subscription-content h3 {
+        font-size: 1.5em;
+        margin-bottom: 15px;
+        font-weight: bold;
+    }
+
+    .subscription-content p {
+        font-size: 1.2em;
+        line-height: 1.5;
+        margin: 10px 0;
+    }
+
+    /* 訂閱按鈕 */
+    .subscribe-button {
+        background-color: #FF0000;
+        color: #fff;
+        font-size: 1.2em;
+        font-weight: bold;
+        border: none;
+        padding: 15px 30px;
+        margin-top: 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .subscribe-button:hover {
+        background-color: #cc0000;
+        transform: scale(1.05);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+    }
+
+    .subscribe-link {
+        text-decoration: none;
+    }
+
+    /* RWD 響應式設計 */
+    @media (max-width: 768px) {
+        .subscription-container {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .subscription-image,
+        .subscription-content {
+            max-width: 100%;
+        }
+
+        .subscription-image {
+            margin-bottom: 20px;
+        }
+
+        .subscription-content {
+            padding: 0 20px;
+        }
+    }
+
+input, textarea {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+button {
+    background: #ff6f61;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+/* 影片介紹區塊 */
+.video-intro {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    max-width: 1000px;
+    margin: auto;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 縮略圖 */
+.video-thumbnail {
+    position: relative;
+    flex: 1;
+    max-width: 500px; /* 增加圖片最大寬度 */
+}
+
+.video-thumbnail img {
+    width: 100%; /* 保持寬度100% */
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 播放按鈕 */
 .play-button {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 40px;
+    font-size: 50px;
     color: white;
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 15px;
-    border-radius: 50%;
     text-decoration: none;
-    transition: background-color 0.3s ease;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 15px 25px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
 }
 
 .play-button:hover {
-    background-color: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.8);
+    transform: translate(-50%, -50%) scale(1.1);
 }
 
+/* 影片資訊 */
 .video-details {
-    width: 45%;
-    padding: 20px;
+    flex: 2;
+    text-align: left;
 }
 
 .video-details h2 {
-    font-size: 28px;
-    font-weight: 700;
-    margin-bottom: 15px;
+    font-size: 20px;
     color: #333;
+    margin-bottom: 10px;
 }
 
 .video-description {
     font-size: 16px;
-    color: #555;
-    line-height: 1.6;
-    margin-bottom: 20px;
+    color: #666;
+    margin-bottom: 15px;
 }
 
+/* 觀看影片按鈕 */
 .btn-watch-video {
-    padding: 12px 20px;
-    background-color: #ff6347; /* 橙紅色 */
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: bold;
-    text-align: center;
     display: inline-block;
-    transition: background-color 0.3s ease;
+    background: #ff4d4d;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: all 0.3s ease;
 }
 
 .btn-watch-video:hover {
-    background-color: #e5533d;
+    background: #cc0000;
 }
-.contact-box {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 200px;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px #00d4ff;
+
+/* ✅ 手機版調整 */
+@media (max-width: 768px) {
+    .video-intro {
+        flex-direction: column; /* 手機版改成上下排列 */
+        text-align: center;
+    }
+
+    .video-thumbnail {
+        max-width: 100%;
+    }
+
+    .video-details h2 {
+        font-size: 18px;
+    }
+
+    .video-description {
+        font-size: 14px;
+    }
+
+    .btn-watch-video {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+}
+body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
             text-align: center;
-            font-size: 1rem;
-            animation: fadeInUp 1s ease-in-out;
         }
-
-        .contact-box a {
-            display: inline-block;
+        .funny-moments-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            padding: 20px;
+        }
+        .media-item {
+            width: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+            background-color: white;
+            text-align: center;
+            padding: 10px;
+        }
+        .media-item img, .media-item video {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .travel-theme {
+            font-size: 18px;
+            color: #333;
             margin-top: 10px;
-            padding: 8px 15px;
-            background: #00d4ff;
-            color: black;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: 0.3s;
         }
-
-        .contact-box a:hover {
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+        }
+        .sponsor-section {
+            padding: 50px 20px;
+            text-align: center;
+            color: #333;
+        }
+        .sponsor-section h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        .sponsor-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: left;
             background: white;
-            color: #00d4ff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
-        .contact-btn {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #007BFF;
+        .sponsor-logos {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .sponsor-logos img {
+            width: 120px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+.contact-section {
+    background-color: #f7f7f7;
+    padding: 50px 20px;
+    text-align: center;
+    border-top: 2px solid #ccc;
+}
+
+.contact-title {
+    font-size: 36px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.contact-description {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.contact-email {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.contact-btn {
+    background-color: #ff9900;
     color: white;
+    padding: 10px 20px;
+    font-size: 18px;
     text-decoration: none;
     border-radius: 5px;
-    font-size: 16px;
     transition: background-color 0.3s;
 }
 
 .contact-btn:hover {
-    background-color: #0056b3;
+    background-color: #ff7700;
 }
-       /* 頁尾 */
-       footer {
-            text-align: center;
-            padding: 20px;
-            background: #333;
-            color: white;
-            margin-top: 30px;
-        }
-    </style>
-</head>
+
+.contact-email a {
+    color: #ff9900;
+    text-decoration: none;
+}
+
+.contact-email a:hover {
+    text-decoration: underline;
+}
+
+/* 頁尾 */
+footer {
+    position: fixed;     /* 固定位置 */
+    bottom: 0;           /* 貼齊視窗底部 */
+    left: 0;             /* 從視窗左側開始 */
+    width: 100%;         /* 寬度佔滿整個視窗 */
+    text-align: center;  /* 文字置中 */
+    padding: 10px 15px;  /* 內邊距（稍微加大） */
+    background: #333;    /* 深灰色背景 */
+    color: white;        /* 文字顏色為白色 */
+    font-size: 16px;     /* 文字大小 */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3); /* 增加上方陰影，使其與內容區隔 */
+    z-index: 1000;       /* 確保頁腳在最上層 */
+}
+
+footer p {
+    margin-bottom: 5px;
+}
+
+footer .social-icons {
+    margin-top: 20px;
+}
+
+
+footer .social-icons a:hover {
+    color: #ff9900;
+}
+
+footer .copyright {
+    font-size: 14px;
+    color: #888;
+    margin-top: 20px;
+}
+
+
+</style>
 <body>
-    <div class="hero">
-        <div class="hero-text">
-            <h1>樂哥旅行團</h1>
-            <h2>與我們一起，享受每一段精彩的旅程</h2>
-        </div>
-    </div>
 
-    <div class="nav">
-        <a href="#about">關於我們</a>
-        <a href="#PHOTO">照片牆</a>
-        <li><a href="#subscription">YouTube</a></li> <!-- 這裡的 #subscription 是指向訂閱區塊的錨點 -->
-        <!-- 可以再添加其他的導覽選項 -->
-        <a href="#video">影片介紹</a>
-        <a href="#contact">聯絡我們</a>
-    </div>
-
+    <!-- 導覽列 -->
+    <header>
+        <h1></h1>
+        <nav id="nav-menu">
+            <a href="#about">關於我們</a>
+            <a href="#gallery">照片牆</a>
+            <a href="#comment">留言區</a>
+            <a href="#facebook">加入粉專</a>
+            <a href="#subscribe">訂閱我們</a>
+            <a href="#video">影片介紹</a>
+            <a href="#funny">幕後花絮  </a>
+            <a href="#contact">聯絡我們</a>
+            <a href="未來行程.html">未來行程預告</a>
+        </nav>
+        <div class="menu-icon" onclick="toggleMenu()">☰</div>
+        <script>
+            function toggleMenu() {
+                var nav = document.getElementById("nav-menu");
+                if (nav.style.display === "flex") {
+                    nav.style.display = "none";
+                } else {
+                    nav.style.display = "flex";
+                }
+            }
+        </script>
+        
+    </header>
+    <!-- 關於我們 -->
     <div id="about" class="section">
-        <h2>關於我們</h2>
+        <h1></h1>
         <div class="about-container">
-            <div class="about-content">
-                <div class="left">
-                    <div class="social-icons">
-                    </div>
-                </div>
-                <div class="right">
-                    <h2>我們的故事</h2>
-                    <p>
-                        我們是一群假日總是聚在一起的一群朋友，無論天氣如何、工作有多忙，總是會找個時間見面。這不僅僅是朋友聚會，而是我們的生活方式！每當週末來臨，大家總會在一起狂歡，不管是去唱歌、旅行，或是單純的聚會，我們都能找到屬於自己的樂趣。
-                    </p>
-                    <p>
-                        我們的聚會總是充滿歡笑和溫馨的回憶，這也是為什麼我們一直保持著這麼深厚的友誼。每一個瞬間，我們都會彼此支持、共同成長。我們相信，這樣的關係會讓我們在未來的日子裡更有力量，去面對一切挑戰，並享受每一個美好的時刻。
-                    </p>
-                    <p>
-                        每一次的聚會，我們都會創造獨特的回憶，不論是遠足旅行、開懷大笑的餐聚，還是安靜的下午茶時光，我們珍惜每一個和彼此共度的日子。正因為這樣，我們成為了無可取代的夥伴，無論生活如何變化，我們的友誼都會持續下去，並且愈加牢固。
-                    </p>
-                </div>
+            <div class="left">
+                <img src="封面.jpg" alt="關於我們圖片">
             </div>
+            <div class="right">
+                <h2>我們的故事</h2>
+               <p>
+                
+                我們是「樂哥旅行團」，一群熱愛生活、熱愛彼此的朋友。每到週末，我們就會聚在一起，無論是小酌幾杯，還是大快朵頤，總是充滿了笑聲和歡樂。對我們來說，這不只是一個吃飯或喝酒的聚會，更是一種共同的情感連結。無論是大大小小的日常瑣事，還是那些難得的旅行記憶，我們總是相互扶持、一起成長。
+                
+                每到假日的時光，我們不僅能放下生活的壓力，也能在朋友間分享喜悅，創造屬於我們的回憶。這些回憶是我們最珍貴的財富，也是我們未來繼續走下去的動力源泉。
+                
+                我們希望透過這個平台，將我們的故事、回憶、甚至更多的歡樂時光分享給大家，帶給每個人一點點快樂和溫暖。如果你也想加入我們的行列，歡迎和我們一起探索更多有趣的事情，一起創造屬於我們的旅程！</p>
         </div>
     </div>
-    <div id="PHOTO" class="section">
-        <h2>照片牆</h2>
-        <p>這片照片牆是我珍藏的回憶與故事的集合，每一張照片都承載著獨特的瞬間和情感。</p>
-            <P>無論是旅行的足跡、與朋友的歡笑，還是日常生活中的美好時刻，</P>
-            <P>每一張圖片都讓我回想起那段時光。希望透過這些影像，</P>
-            <P>您能感受到我對生活的熱愛與珍惜。</P>
-        <div class="gallery">
-            <figure class="gallery-item" onclick="openLightbox('S__79183891.jpg')">
-                <img src="S__79183891.jpg" alt="2022花蓮度假">
-                <figcaption>2022花蓮度假</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151109_0.jpg')">
-                <img src="S__79208453_0.jpg" alt="花蓮沙灘車">
-                <figcaption>花蓮沙灘車</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151109_0.jpg')">
-                <img src="S__79183886.jpg" alt="15週年 水晶婚紀念日">
-                <figcaption>15週年 水晶婚紀念日</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151109_0.jpg')">
-                <img src="S__79183883_0.jpg" alt="屏東東港港口">
-                <figcaption>屏東東港港口</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151109_0.jpg')">
-                <img src="S__79183884_0.jpg" alt="小琉球">
-                <figcaption>小琉球</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151109_0.jpg')">
-                <img src="S__79183882_0.jpg" alt="孫家祖廟竭祖">
-                <figcaption>孫家祖廟竭祖</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151109_0.jpg')">
-                <img src="S__79183881_0.jpg" alt="20230501慶生">
-                <figcaption>20230501慶生</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151109_0.jpg')">
-                <img src="S__79183877_0.jpg" alt="南投松柏嶺受天宮">
-                <figcaption>南投松柏嶺受天宮</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151108_0.jpg')">
-                <img src="S__79151114_0.jpg" alt="澎湖跨海大橋">
-                <figcaption>澎湖跨海大橋</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79151115_0.jpg" alt="小萍の店">
-                <figcaption>小萍の店</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79151116_0.jpg" alt="澎湖水族館">
-                <figcaption>澎湖水族館</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79151117_0.jpg" alt="澎湖天后宮">
-                <figcaption>澎湖天后宮</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79151120_0.jpg" alt=" 外婆的澎湖灣">
-                <figcaption> 外婆的澎湖灣</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79151121_0.jpg" alt=" 西嶼燈塔">
-                <figcaption>西嶼燈塔</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79151124_0.jpg" alt=" 海洋皇宮牧場">
-                <figcaption>海洋皇宮牧場</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79151125_0.jpg" alt="屏東恆春墾丁度假">
-                <figcaption>屏東恆春墾丁度假</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79183878_0.jpg" alt="20231027生日慶生">
-                <figcaption>20231027生日慶生</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79151126_0.jpg" alt="南投車程">
-                <figcaption>南投車程</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79208460.jpg" alt="迎接2024">
-                <figcaption>迎接2024</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79151130_0.jpg" alt="宜蘭娃娃國民宿">
-                <figcaption>宜蘭娃娃國民宿</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79151131_0.jpg" alt="道教總廟三清宮">
-                <figcaption>道教總廟三清宮</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79151133_0.jpg" alt="宜蘭傳藝園區">
-                <figcaption>宜蘭傳藝園區</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79208456_0.jpg" alt="2024 3月慶生">
-                <figcaption>2024 3月慶生</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79151136_0.jpg" alt="台北捷運">
-                <figcaption>台北捷運</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79151138_0.jpg" alt="大稻埕迪化街">
-                <figcaption>大稻埕迪化街</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79208459_0.jpg" alt="碧潭大橋">
-                <figcaption>碧潭大橋</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79208458_0.jpg" alt="新店捷運">
-                <figcaption>新店捷運</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79183894_0.jpg" alt="2024鹿耳門路跑">
-                <figcaption>2024鹿耳門路跑</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79183893_0.jpg" alt="路跑開跑預備">
-                <figcaption>路跑開跑預備</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79183895_0.jpg" alt="許家茶園">
-                <figcaption>許家茶園</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79183896_0.jpg" alt="韓國松月洞童話村">
-                <figcaption>韓國松月洞童話村</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79183898_0.jpg" alt="景福宮">
-                <figcaption>景福宮</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79208454_0.jpg" alt="妖怪村">
-                <figcaption>妖怪村</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79208455_0.jpg" alt="阿里山神木">
-                <figcaption>阿里山神木</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79208457_0.jpg" alt="恆春高山巖">
-                <figcaption>恆春高山巖</figcaption>
-            </figure>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script>
+    gsap.from(".left img", { duration: 1, x: -100, opacity: 0, ease: "power2.out" });
+    gsap.from(".right", { duration: 1, x: 100, opacity: 0, ease: "power2.out", delay: 0.3 });
+</script>
+
+    
+    <!-- 照片牆 -->
+    <div id="gallery" class="section">
+    <h2>照片牆</h2>
+    <p>這片照片牆是我珍藏的回憶與故事的集合，每一張照片都承載著獨特的瞬間和情感。</p>
+    <P>無論是旅行的足跡、與朋友的歡笑，還是日常生活中的美好時刻，</P>
+    <P>每一張圖片都讓我回想起那段時光。希望透過這些影像，</P>
+    <P>您能感受到我對生活的熱愛與珍惜。</P>
+
+    <div class="gallery">
+        <figure class="gallery-item" onclick="openLightbox('S__79183891.jpg')">
+            <img src="S__79183891.jpg" alt="2022花蓮度假">
+            <figcaption>2022花蓮度假</figcaption>
         </figure>
-        <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-            <img src="S__79208494.jpg" alt="台東鐵路便當">
-            <figcaption>台東鐵路便當</figcaption>
+        <figure class="gallery-item" onclick="openLightbox('S__79208453_0.jpg')">
+            <img src="S__79208453_0.jpg" alt="花蓮沙灘車">
+            <figcaption>花蓮沙灘車</figcaption>
         </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79208451_0.jpg" alt="台東監獄">
-                <figcaption>台東監獄</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79208462_0.jpg" alt="2024中秋佳節烤肉">
-                <figcaption>2024中秋佳節烤肉</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79208463_0.jpg" alt="苗栗舊山線">
-                <figcaption>苗栗舊山線</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79208464_0.jpg" alt="雅聞湖濱療癒森林">
-                <figcaption>雅聞湖濱療癒森林</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79208465_0.jpg" alt="喝酒喝酒">
-                <figcaption>喝酒喝酒</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="台中鳳凰.jpg" alt="台中鳳凰酒店">
-                <figcaption>台中鳳凰酒店</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79208467.jpg" alt="王功海牛踩蚵車">
-                <figcaption>王功海牛踩蚵車</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79208468_0.jpg" alt="2024 10月慶生">
-                <figcaption>2024 10月慶生</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79208470_0.jpg" alt="YA!!!">
-                <figcaption>YA!!!</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79208471_0.jpg" alt="九族文化村馬雅探險">
-                <figcaption>九族文化村馬雅探險</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79208480_0.jpg" alt="聖誕節交換禮物">
-                <figcaption>聖誕節交換禮物</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79208482_0.jpg" alt="南投山福情深">
-                <figcaption>南投山福情深</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79208486_0.jpg"alt="烏來溫泉">
-                <figcaption>烏來溫泉</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79208484_0.jpg" alt="烏來大瀑布">
-                <figcaption>烏來大瀑布</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79208485_0.jpg"alt="平溪天燈">
-                <figcaption>平溪天燈</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79208481_0.jpg" alt="聖誕節大合照">
-                <figcaption>聖誕節大合照</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79208487_0.jpg"alt="新北野柳">
-                <figcaption>新北野柳</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79208488_0.jpg"alt="基隆彩虹屋">
-                <figcaption>基隆彩虹屋</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79208490_0.jpg"alt="過年大合照">
-                <figcaption>過年大合照</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79208491_0.jpg"alt="不厭亭">
-                <figcaption>不厭亭</figcaption>
-            </figure>
-            <figure class="gallery-item" onclick="openLightbox('S__79151110_0.jpg')">
-                <img src="S__79208493_0.jpg"alt="觀音堂佛祖聖誕千秋">
-                <figcaption>觀音堂佛祖聖誕千秋</figcaption>
-            </figure>
-        </div>
+        <figure class="gallery-item" onclick="openLightbox('S__79183886.jpg')">
+            <img src="S__79183886.jpg" alt="15週年 水晶婚紀念日">
+            <figcaption>15週年 水晶婚紀念日</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79183883_0.jpg')">
+            <img src="S__79183883_0.jpg" alt="屏東東港港口">
+            <figcaption>屏東東港港口</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79183884_0.jpg')">
+            <img src="S__79183884_0.jpg" alt="小琉球">
+            <figcaption>小琉球</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79183882_0.jpg')">
+            <img src="S__79183882_0.jpg" alt="孫家祖廟竭祖">
+            <figcaption>孫家祖廟竭祖</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79183881_0.jpg')">
+            <img src="S__79183881_0.jpg" alt="20230501慶生">
+            <figcaption>20230501慶生</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79183877_0.jpg')">
+            <img src="S__79183877_0.jpg" alt="南投松柏嶺受天宮">
+            <figcaption>南投松柏嶺受天宮</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79151114_0.jpg')">
+            <img src="S__79151114_0.jpg" alt="澎湖跨海大橋">
+            <figcaption>澎湖跨海大橋</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79151115_0.jpg')">
+            <img src="S__79151115_0.jpg" alt="小萍の店">
+            <figcaption>小萍の店</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79151116_0.jpg')">
+            <img src="S__79151116_0.jpg" alt="澎湖水族館">
+            <figcaption>澎湖水族館</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79151117_0.jpg')">
+            <img src="S__79151117_0.jpg" alt="澎湖天后宮">
+            <figcaption>澎湖天后宮</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79151120_0.jpg')">
+            <img src="S__79151120_0.jpg" alt=" 外婆的澎湖灣">
+            <figcaption> 外婆的澎湖灣</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79151121_0.jpg')">
+            <img src="S__79151121_0.jpg" alt=" 西嶼燈塔">
+            <figcaption>西嶼燈塔</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79151124_0.jpg')">
+            <img src="S__79151124_0.jpg" alt=" 海洋皇宮牧場">
+            <figcaption>海洋皇宮牧場</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79151125_0.jpg')">
+            <img src="S__79151125_0.jpg" alt="屏東恆春墾丁度假">
+            <figcaption>屏東恆春墾丁度假</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79183878_0.jpg')">
+            <img src="S__79183878_0.jpg" alt="20231027生日慶生">
+            <figcaption>20231027生日慶生</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79151126_0.jpg')">
+            <img src="S__79151126_0.jpg" alt="南投車程">
+            <figcaption>南投車程</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79208460.jpg')">
+            <img src="S__79208460.jpg" alt="迎接2024">
+            <figcaption>迎接2024</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79151130_0.jpg')">
+            <img src="S__79151130_0.jpg" alt="宜蘭娃娃國民宿">
+            <figcaption>宜蘭娃娃國民宿</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79151131_0.jpg')">
+            <img src="S__79151131_0.jpg" alt="道教總廟三清宮">
+            <figcaption>道教總廟三清宮</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79151133_0.jpg')">
+            <img src="S__79151133_0.jpg" alt="宜蘭傳藝園區">
+            <figcaption>宜蘭傳藝園區</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79208456_0.jpg')">
+            <img src="S__79208456_0.jpg" alt="2024 3月慶生">
+            <figcaption>2024 3月慶生</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79151136_0.jpg')">
+            <img src="S__79151136_0.jpg" alt="台北捷運">
+            <figcaption>台北捷運</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79151138_0.jpg')">
+            <img src="S__79151138_0.jpg" alt="大稻埕迪化街">
+            <figcaption>大稻埕迪化街</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79208459_0.jpg')">
+            <img src="S__79208459_0.jpg" alt="碧潭大橋">
+            <figcaption>碧潭大橋</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79208458_0.jpg')">
+            <img src="S__79208458_0.jpg" alt="新店捷運">
+            <figcaption>新店捷運</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79183894_0.jpg')">
+            <img src="S__79183894_0.jpg" alt="2024鹿耳門路跑">
+            <figcaption>2024鹿耳門路跑</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79183893_0.jpg')">
+            <img src="S__79183893_0.jpg" alt="路跑開跑預備">
+            <figcaption>路跑開跑預備</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79183895_0.jpg')">
+            <img src="S__79183895_0.jpg" alt="許家茶園">
+            <figcaption>許家茶園</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79183896_0.jpg')">
+            <img src="S__79183896_0.jpg" alt="韓國松月洞童話村">
+            <figcaption>韓國松月洞童話村</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79183898_0.jpg')">
+            <img src="S__79183898_0.jpg" alt="景福宮">
+            <figcaption>景福宮</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79208454_0.jpg')">
+            <img src="S__79208454_0.jpg" alt="妖怪村">
+            <figcaption>妖怪村</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79208485_0.jpg')">
+            <img src="S__79208485_0.jpg"alt="平溪天燈">
+            <figcaption>平溪天燈</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79208455_0.jpg')">
+            <img src="S__79208455_0.jpg" alt="台東監獄">
+            <figcaption>阿里山神木</figcaption>
+        </figure>
+    <figure class="gallery-item" onclick="openLightbox('S__79208494.jpg')">
+        <img src="S__79208494.jpg" alt="台東鐵路便當">
+        <figcaption>台東鐵路便當</figcaption>
+    </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79208457_0.jpg')">
+            <img src="S__79208457_0.jpg" alt="恆春高山巖">
+            <figcaption>恆春高山巖</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79208486_0.jpg')">
+            <img src="S__79208486_0.jpg"alt="烏來溫泉">
+            <figcaption>烏來溫泉</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79208484_0.jpg')">
+            <img src="S__79208484_0.jpg" alt="烏來大瀑布">
+            <figcaption>烏來大瀑布</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79683586.jpg')">
+            <img src="S__79683586.jpg" alt="阿里山神木">
+            <figcaption>台東大學</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79208465_0.jpg')">
+            <img src="S__79208465_0.jpg" alt="喝酒喝酒">
+            <figcaption>喝酒喝酒</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('台中鳳凰.jpg')">
+            <img src="台中鳳凰.jpg" alt="台中鳳凰酒店">
+            <figcaption>台中鳳凰酒店</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79208467.jpg')">
+            <img src="S__79208467.jpg" alt="王功海牛踩蚵車">
+            <figcaption>王功海牛踩蚵車</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79208468_0.jpg')">
+            <img src="S__79208468_0.jpg" alt="2024 10月慶生">
+            <figcaption>2024 10月慶生</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79208470_0.jpg')">
+            <img src="S__79208470_0.jpg" alt="YA!!!">
+            <figcaption>YA!!!</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79208471_0.jpg')">
+            <img src="S__79208471_0.jpg" alt="九族文化村馬雅探險">
+            <figcaption>九族文化村馬雅探險</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79208480_0.jpg')">
+            <img src="S__79208480_0.jpg" alt="聖誕節交換禮物">
+            <figcaption>聖誕節交換禮物</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79208482_0.jpg')">
+            <img src="S__79208482_0.jpg" alt="南投山福情深">
+            <figcaption>南投山福情深</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79208462_0.jpg')">
+            <img src="S__79208462_0.jpg" alt="2024中秋佳節烤肉">
+            <figcaption>2024中秋佳節烤肉</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79208463_0.jpg')">
+            <img src="S__79208463_0.jpg" alt="苗栗舊山線">
+            <figcaption>苗栗舊山線</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79208464_0.jpg')">
+            <img src="S__79208464_0.jpg" alt="雅聞湖濱療癒森林">
+            <figcaption>雅聞湖濱療癒森林</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79208481_0.jpg')">
+            <img src="S__79208481_0.jpg" alt="聖誕節大合照">
+            <figcaption>聖誕節大合照</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79208487_0.jpg')">
+            <img src="S__79208487_0.jpg"alt="新北野柳">
+            <figcaption>新北野柳</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79208488_0.jpg')">
+            <img src="S__79208488_0.jpg"alt="基隆彩虹屋">
+            <figcaption>基隆彩虹屋</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79208490_0.jpg')">
+            <img src="S__79208490_0.jpg"alt="過年大合照">
+            <figcaption>過年大合照</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79208491_0.jpg')">
+            <img src="S__79208491_0.jpg"alt="不厭亭">
+            <figcaption>不厭亭</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79208451_0.jpg')">
+            <img src="S__79208451_0.jpg" alt="台東監獄">
+            <figcaption>台東監獄</figcaption>
+        </figure>
+        <figure class="gallery-item" onclick="openLightbox('S__79208493_0.jpg')">
+            <img src="S__79208493_0.jpg"alt="觀音堂佛祖聖誕千秋">
+            <figcaption>觀音堂佛祖聖誕千秋</figcaption>
+        </figure>
+        <!-- 其他圖片請自行添加 -->
     </div>
 
+    <!-- Lightbox 彈出視窗 -->
     <div class="lightbox" id="lightbox" onclick="closeLightbox()">
         <img id="lightbox-img" src="" alt="">
     </div>
@@ -697,60 +1200,242 @@ body::before {
         function closeLightbox() {
             document.getElementById('lightbox').classList.remove('show');
         }
+
+        // 讓使用者可以按 ESC 鍵關閉 Lightbox
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Escape") {
+                closeLightbox();
+            }
+        });
     </script>
-    <div>
-        <div id="subscription" class="subscription-section">
-        <div class="subscription-content">
-        <h2>訂閱我們的 YouTube 頻道，</h2>
-        <h3>隨時掌握最新影片！</h3>
-        <p>點擊訂閱，隨時獲得我們的最新影片、</p>
-        <P>獨家內容與精彩片段。加入我們的社群，</P>
-        <P> 一起探索更多有趣的影片，讓你不錯過每一個精彩瞬間！</p>
-        <a href="https://www.youtube.com/@DerekHankFamily" class="subscribe-link">
-            <button class="subscribe-button">訂閱我們</button>
-        </a>
+    
+    <div id="comment" class="comment-section">
+        <div class="comment-container">
+            <!-- 左側圖片 -->
+            <div class="comment-image">
+                <img src="Red Minimalist Vlog Christmas Decor YouTube Thumbnail.png" alt="粉絲留言">
+            </div>
+    
+            <!-- 右側內容 -->
+            <div class="comment-content">
+                <h2>粉絲留言區 💬</h2>
+                <h3>開放訪客留言，</h3>
+                <p>分享對「樂哥旅行團」的感想、旅行經驗或建議。</p>
+    
+                <!-- 留言按鈕 -->
+                <a href="粉絲留言.html" target="_blank" class="comment-button">
+                    前往留言區
+                </a>
+            </div>
+        </div>
+    </div>
+    
+<!-- 關注 Facebook 粉絲專頁區塊 -->
+<div id="facebook" class="facebook">
+<div class="facebook-follow-section">
+    <div class="facebook-follow-container">
+        <!-- 左側圖片 -->
+        <div class="facebook-follow-image">
+            <img src="Green and Yellow Gardening YouTube Channel Art  (3).png" alt="Facebook Follow">
+        </div>
+
+        <!-- 右側內容 -->
+        <div class="facebook-follow-content">
+            <h2>加入我們的 Facebook 社群</h2>
+            <h3>隨時掌握最新消息與活動</h3>
+            <p>點擊下面的按鈕，立即關注我們的 Facebook 粉絲專頁，並與我們一起分享更多精彩內容！</p>
+
+            <!-- 追蹤按鈕 -->
+            <a href="https://www.facebook.com/profile.php?id=100070451786713" target="_blank" class="facebook-follow-button">
+                立刻關注
+            </a>
+        </div>
     </div>
 </div>
-</div>
+
+<div id="subscribe" class="subscription-section">
+    <div class="subscription-container">
+
+        <!-- 左側圖片 -->
+        <div class="subscription-image">
+            <img src="S__79183894_0.jpg" alt="訂閱我們">
         </div>
-        <div id="video" class="section">
-        <section class="video-intro">
-            <div class="video-thumbnail">
-                <img src="S__79208466_0.jpg" alt="影片封面">
-                <a href="https://www.youtube.com/watch?v=kF_ZZDSWfug&t=1s&ab_channel=樂哥旅行團" target="_blank" class="play-button">▶</a>
-            </div>
-            <div class="video-details">
-                <h2>樂哥旅行團首支MV｜收集了快半年的影片終於孵出來了｜樂哥旅行團</h2>
-                <p class="video-description">-謝震廷-你的行李cover by 欸你這週要幹嘛妹妹.弟弟</p>
-                <a href="https://www.youtube.com/watch?v=kF_ZZDSWfug&t=1s&ab_channel=%E6%A8%82%E5%93%A5%E6%97%85%E8%A1%8C%E5%9C%98" target="_blank" class="btn-watch-video">觀看影片</a>
-            </div>
-        </section>
-        <section class="video-intro">
-            <div class="video-thumbnail">
-                <img src="S__79151132_0.jpg" alt="影片封面">
-                <a href="https://www.youtube.com/watch?v=G8pX245lIfU&ab_channel=%E6%A8%82%E5%93%A5%E6%97%85%E8%A1%8C%E5%9C%98" target="_blank" class="play-button">▶</a>
-            </div>
-            <div class="video-details">
-                <h2>🎓國小畢業典禮🎓｜2024.6.15｜VLOG｜Elementary school｜樂哥旅行團</h2>
-                <p class="video-description">一場有哭有笑有歡樂的典禮。</p>
-                <a href="https://www.youtube.com/watch?v=G8pX245lIfU&ab_channel=%E6%A8%82%E5%93%A5%E6%97%85%E8%A1%8C%E5%9C%98" target="_blank" class="btn-watch-video">觀看影片</a>
-            </div>
-        </section>
-        </div>    
-            <div id="contact" class="section">
-                <h2>聯絡我們</h2>
-                <p>您可以透過 hankchen0807@gmail.com 聯繫我們。</p>
-                <a href="聯絡我.html" class="contact-btn">立即聯繫</a>
-            </div>
-    </body>
 
+        <!-- 右側內容 -->
+        <div class="subscription-content">
+            <h2>📢 訂閱我們的 YouTube 頻道</h2>
+            <h3>🎥 隨時掌握最新影片！</h3>
+            <p>點擊訂閱，獲得我們的最新影片、獨家內容與精彩片段。</p>
+            <p>加入我們的社群，一起探索更多有趣的影片，</p>
+            <p>讓你不錯過每一個精彩瞬間！</p>
+            <a href="https://www.youtube.com/@DerekHankFamily" class="subscribe-link" target="_blank">
+                <button class="subscribe-button">🚀 訂閱我們</button>
+            </a>
+        </div>
+    </div>
+</div>
 
-    <!-- 頁尾 -->
+    <!-- 影片介紹 -->
+    <section id="video" class="section">
+    <section class="video-intro">
+        <div class="video-thumbnail">
+            <img src="S__79208466_0.jpg" alt="影片封面">
+            <a href="https://www.youtube.com/watch?v=kF_ZZDSWfug&t=1s&ab_channel=樂哥旅行團" target="_blank" class="play-button">▶</a>
+        </div>
+        <div class="video-details">
+            <h2>樂哥旅行團首支MV｜收集了快半年的影片終於孵出來了｜樂哥旅行團</h2>
+            <p class="video-description">作詞、作曲:謝震廷-你的行李cover by 欸你這週要幹嘛妹妹.弟弟</p>
+            <a href="https://www.youtube.com/watch?v=kF_ZZDSWfug&t=1s&ab_channel=%E6%A8%82%E5%93%A5%E6%97%85%E8%A1%8C%E5%9C%98" target="_blank" class="btn-watch-video">觀看影片</a>
+        </div>
+    </section>
+    <section class="video-intro">
+        <div class="video-thumbnail">
+            <img src="S__79151132_0.jpg" alt="影片封面">
+            <a href="https://www.youtube.com/watch?v=G8pX245lIfU&ab_channel=%E6%A8%82%E5%93%A5%E6%97%85%E8%A1%8C%E5%9C%98" target="_blank" class="play-button">▶</a>
+        </div>
+        <div class="video-details">
+            <h2>🎓國小畢業典禮🎓｜2024.6.15｜VLOG｜Elementary school｜樂哥旅行團</h2>
+            <p class="video-description">一場有哭有笑有歡樂的典禮。</p>
+            <a href="https://www.youtube.com/watch?v=G8pX245lIfU&ab_channel=%E6%A8%82%E5%93%A5%E6%97%85%E8%A1%8C%E5%9C%98" target="_blank" class="btn-watch-video">觀看影片</a>
+        </div>
+    </section>
+    <section class="video-intro">
+        <div class="video-thumbnail">
+            <img src="Colorful Pastel Cute Aesthetic A Day In My Life YouTube Thumbnail.png" alt="影片封面">
+            <a href="https://www.youtube.com/watch?v=xIAi7H4b2us&ab_channel=%E6%A8%82%E5%93%A5%E6%97%85%E8%A1%8C%E5%9C%98" target="_blank" class="play-button">▶</a>
+        </div>
+        <div class="video-details">
+            <h2>🎓專屬樂哥旅行團的年度影片｜ 第一次開著車搭電梯!?是什麼體驗｜ 超嗨的聖誕露營抖音熱歌唱起來｜樂哥旅行團</h2>
+            <p class="video-description">紀錄了一整年。</p>
+            <a href="https://www.youtube.com/watch?v=xIAi7H4b2us&ab_channel=%E6%A8%82%E5%93%A5%E6%97%85%E8%A1%8C%E5%9C%98" target="_blank" class="btn-watch-video">觀看影片</a>
+        </div>
+    </section>
+    </div>  
+    <section id="funny" class="section">
+    <h2 style="color: #2c3e50;">✈️ 幕後花絮 / 搞笑瞬間 😂</h2>
+    <p class="travel-theme">旅行不只是一趟旅程，而是一段充滿歡笑的回憶！</p>
+    <div class="funny-moments-gallery">
+        <div class="media-item">
+            <video controls>
+                <source src="1.mp4" type="video/mp4">
+            </video>
+            <p>趁空檔玩玩</p>
+        </div>
+        <div class="media-item">
+            <video controls>
+                <source src=2.mp4 type="video/mp4">
+            </video>
+            <p>穿鞋鞋準備踩蚵車</p>
+        </div>
+        <div class="media-item">
+            <video controls>
+                <source src="4.mp4" type="video/mp4">
+            </video>
+            <p>抓蛤蜊喽</p>
+        </div>
+        <div class="media-item">
+            <video controls>
+                <source src="5.mp4" type="video/mp4">
+            </video>
+            <p>整隊拍照</p>
+        </div>
+        <div class="media-item">
+            <video controls>
+                <source src="6.mp4" type="video/mp4">
+            </video>
+            <p>哥們你太重了</p>
+        </div>
+        <div class="media-item">
+            <video controls>
+                <source src="3.mp4" type="video/mp4">
+            </video>
+            <p>蚵車</p>
+        </div>
+        <div class="media-item">
+            <video controls>
+                <source src="7.mp4" type="video/mp4">
+            </video>
+            <p>歡迎翁大帥為我們帶來的演出</p>
+        </div>
+        <div class="media-item">
+            <video controls>
+                <source src="8.mp4" type="video/mp4">
+            </video>
+            <p>請問忠孝東路怎麼走???</p>
+        </div>
+        <div class="media-item">
+            <img src="S__79749135_0.jpg" alt="搞笑瞬間3">
+            <p>👾愛玉的鬥雞眼👾</p>
+        </div>
+        <div class="media-item">
+            <img src="S__79749139.jpg" alt="搞笑瞬間3">
+            <p>😍拍美美的照片😍</p>
+        </div>
+        <div class="media-item">
+            <img src="S__79749137_0.jpg" alt="搞笑瞬間3">
+            <p>😵‍💫啊~火車要跑了😵‍💫</p>
+        </div>
+        <div class="media-item">
+            <img src="S__79749138_0.jpg" alt="搞笑瞬間3">
+            <p>🙀要被關了嗎🙀</p>
+        </div>
+    </div>
+
+    <script>
+        let slideIndex = 0;
+        showSlides();
+        
+        function showSlides() {
+            let slides = document.getElementsByClassName("slides");
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) {slideIndex = 1}
+            slides[slideIndex-1].style.display = "block";
+            setTimeout(showSlides, 3000);
+        }
+        
+        function changeSlide(n) {
+            slideIndex += n - 1;
+            showSlides();
+        }
+    </script>
+    <section class="sponsor-section">
+        <h2>💰 合作與贊助 💰</h2>
+        <div class="sponsor-content">
+            <h3>📩 聯絡方式</h3>
+            <p>Email: derektourteams@gmail.com</p>
+            <p>電話: 0967086028</p>
+            <p>社群媒體: <a href="https://www.facebook.com/profile.php?id=100070451786713">Facebook</a> | <a href="https://www.instagram.com/derekle101420/">Instagram</a></p>
+        </div>
+    </section>
+    <!-- 聯絡我們 -->
+    <section id="contact" class="section">
+    <script>
+        // 使用 GSAP 增加動態效果
+        gsap.from("header", { duration: 1, y: -50, opacity: 0, ease: "bounce" });
+        gsap.from(".section", { duration: 1, opacity: 0, stagger: 0.3 });
+        gsap.from(".gallery img", { duration: 1, scale: 0.8, opacity: 0, stagger: 0.2 });
+    </script>
+    <div id="contact" class="section contact-section">
+        <h2 class="contact-title">聯絡我們</h2>
+        <p class="contact-description">有任何問題或想法，隨時與我們聯繫！我們會很快回覆您。</p>
+        <p class="contact-email">電子郵件：<a href="mailto:hankchen0807@gmail.com">hankchen0807@gmail.com</a></p>
+        <a href="聯絡我.html" class="contact-btn">立即聯繫</a>
+    </div>
     <footer>
-        樂哥旅行團，2025，走出舒適圈，迎接每一個新的風景。
+        <!-- 公司或網站名稱 -->
+        <p>樂哥旅行團 &copy; 2025 | 保留所有權利</p>
+    
+        <!-- 社交媒體連結 -->
+        <div class="social-icons">
+    
+        <!-- 版權資訊 -->
+        <div class="copyright">
+            <p>Designed by 樂哥旅行團</p>
+        
     </footer>
-
-    </html>
     </div>
 </body>
 </html>
