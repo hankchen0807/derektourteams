@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>樂哥旅行團 - 粉絲留言區</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            background-image: url("海灘.jpg");
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+        }
+
+        header {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            text-align: center;
+            padding: 25px 0;
+            font-size: 24px;
+        }
+
+        .container {
+            width: 90%;
+            margin: 20px auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            font-size: 28px;
+        }
+
+        .comment-box {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-top: 15px;
+            resize: vertical;
+            font-size: 16px;
+        }
+
+        .submit-btn {
+            background-color: #ff6f61;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            margin-top: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #ff5733;
+        }
+
+        .comments-list {
+            margin-top: 30px;
+        }
+
+        .comment {
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .comment h4 {
+            margin: 0;
+            color: #ff6f61;
+            font-size: 20px;
+        }
+
+        .comment p {
+            color: #555;
+            font-size: 16px;
+        }
+
+        .comment-actions {
+            margin-top: 10px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .action-btn {
+            background-color: #ff6f61;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background-color: #ff5733;
+        }
+
+        .travel-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+            color: #ff6f61;
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .comment-textarea {
+            font-size: 16px;
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            header {
+                font-size: 20px;
+                padding: 20px 0;
+            }
+
+            .container {
+                width: 95%;
+                padding: 20px;
+            }
+
+            .submit-btn {
+                width: 100%;
+                padding: 15px 20px;
+                font-size: 16px;
+            }
+
+            .comment h4 {
+                font-size: 18px;
+            }
+
+            .comment p {
+                font-size: 14px;
+            }
+
+            .action-btn {
+                font-size: 12px;
+                padding: 5px 8px;
+            }
+
+            .travel-icon {
+                font-size: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .submit-btn {
+                font-size: 14px;
+                padding: 15px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .comment-box {
+                font-size: 14px;
+            }
+        }
+
+        /* 回首頁按鈕的樣式 */
+        .home-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #ff6f61;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        .home-btn:hover {
+            background-color: #ff5733;
+        }
+
+        /* 新增留言區塊容器 */
+        .comment-section {
+            width: 90%;
+            margin: 20px auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- 回首頁按鈕 -->
+        <button class="home-btn" onclick="window.location.href='樂哥旅行團.html'">回首頁</button>
+        <h1>樂哥旅行團 - 粉絲留言區</h1>
+        <p>歡迎分享您對「樂哥旅行團」的感想、旅行經驗或建議！</p>
+    </header>
+
+    <!-- 留言區塊 -->
+    <div class="comment-section">
+        <h2>留言區 💬</h2>
+
+        <form id="commentForm" class="form-container">
+            <label for="name">您的名字(暱稱)：</label><br>
+            <input type="text" id="name" name="name" placeholder="請輸入您的名字(暱稱)" required><br>
+
+            <label for="comment">您的留言：</label><br>
+            <textarea id="comment" name="comment" class="comment-box comment-textarea" placeholder="在此留下您的留言..." rows="4" required></textarea><br>
+
+            <button type="submit" class="submit-btn">
+                <span class="travel-icon">✈️</span> 發送留言
+            </button>
+        </form>
+
+        <div class="comments-list">
+            <h3>最新留言：</h3>
+            <div id="commentsContainer">
+                <!-- 新的留言將顯示在這裡 -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 初始化留言區
+        const commentForm = document.getElementById('commentForm');
+        const commentsContainer = document.getElementById('commentsContainer');
+
+        // 提交留言後的處理函數
+        commentForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // 防止頁面重載
+
+            // 獲取表單數據
+            const name = document.getElementById('name').value;
+            const commentText = document.getElementById('comment').value;
+
+            // 創建新的留言元素
+            const commentDiv = document.createElement('div');
+            commentDiv.classList.add('comment');
+
+            const commentHeader = document.createElement('h4');
+            commentHeader.textContent = name;
+            const commentPara = document.createElement('p');
+            commentPara.textContent = commentText;
+
+            // 創建編輯和刪除按鈕
+            const actionDiv = document.createElement('div');
+            actionDiv.classList.add('comment-actions');
+
+            const editBtn = document.createElement('button');
+            editBtn.classList.add('action-btn');
+            editBtn.textContent = '編輯';
+            editBtn.onclick = function() {
+                document.getElementById('name').value = name;
+                document.getElementById('comment').value = commentText;
+                commentDiv.remove();
+            };
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.classList.add('action-btn');
+            deleteBtn.textContent = '刪除';
+            deleteBtn.onclick = function() {
+                commentDiv.remove();
+            };
+
+            // 將編輯和刪除按鈕添加到操作區
+            actionDiv.appendChild(editBtn);
+            actionDiv.appendChild(deleteBtn);
+
+            // 將留言內容與按鈕添加到留言區
+            commentDiv.appendChild(commentHeader);
+            commentDiv.appendChild(commentPara);
+            commentDiv.appendChild(actionDiv);
+
+            // 將新的留言顯示在最新留言區域
+            commentsContainer.insertBefore(commentDiv, commentsContainer.firstChild);
+
+            // 清空表單
+            commentForm.reset();
+        });
+    </script>
+</body>
+</html>
+
+
