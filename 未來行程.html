@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>樂哥旅行團--未來行程預告</title>
+    <title>未來行程預告</title>
     <style>
         body {
             font-family: 'Noto Sans TC', sans-serif;
@@ -116,6 +116,16 @@
                 padding: 10px;
             }
         }
+        @media (max-width: 600px) {
+    .calendar {
+        grid-template-columns: repeat(7, 1fr); /* 7 列顯示所有天數 */
+        padding: 10px; /* 增加內邊距 */
+    }
+    .day {
+        padding: 10px;
+        font-size: 1.2em; /* 增大字體，便於手機顯示 */
+    }
+}
     </style>
 </head>
 <body>
