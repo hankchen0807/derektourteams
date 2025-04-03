@@ -737,6 +737,11 @@ button {
         padding: 8px 15px;
     }
 }
+body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            text-align: center;
+        }
 .contact-section {
     background-color: #f7f7f7;
     padding: 50px 20px;
@@ -1242,28 +1247,8 @@ footer .copyright {
             <a href="https://www.youtube.com/watch?v=xIAi7H4b2us&ab_channel=%E6%A8%82%E5%93%A5%E6%97%85%E8%A1%8C%E5%9C%98" target="_blank" class="btn-watch-video">觀看影片</a>
         </div>
     </section>
+    </div>  
 
-    <script>
-        let slideIndex = 0;
-        showSlides();
-        
-        function showSlides() {
-            let slides = document.getElementsByClassName("slides");
-            for (let i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";
-            }
-            slideIndex++;
-            if (slideIndex > slides.length) {slideIndex = 1}
-            slides[slideIndex-1].style.display = "block";
-            setTimeout(showSlides, 3000);
-        }
-        
-        function changeSlide(n) {
-            slideIndex += n - 1;
-            showSlides();
-        }
-    </script>
-    <section class="sponsor-section">
         <h2>💰 合作與贊助 💰</h2>
         <div class="sponsor-content">
             <h3>📩 聯絡方式</h3>
