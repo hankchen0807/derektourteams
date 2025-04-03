@@ -91,49 +91,78 @@ nav a:hover {
 
 /* 🔥 漢堡選單圖示（手機版） */
 .menu-icon {
-    display: none;
+    display: block;
     font-size: 30px;
     cursor: pointer;
-    position: relative; /* 新增 */
-    z-index: 1000; /* 確保漢堡選單在最前面 */
+    position: fixed; /* 固定在畫面上 */
+    top: 20px; /* 頂部距離 */
+    right: 20px; /* 右側距離 */
+    z-index: 99999; /* 超高層級，確保按鈕永遠在最前 */
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
 }
 
-/* 📱【手機版】導覽列變成「下拉式選單」 */
+/* 📱【手機版】導覽列 */
 @media (max-width: 768px) {
-    header {
-        height: auto;
-        flex-direction: row;
-        padding: 15px 20px;
-    }
-
-    /* 隱藏原本的導覽列，改用漢堡選單 */
     nav {
         display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 80px;
+        flex-direction: row; /* 這裡改為橫向排列 */
+        position: fixed; /* 讓選單固定在畫面上 */
+        top: 60px;
         right: 20px;
-        background: rgba(0, 0, 0, 0.8);
+        background: rgba(0, 0, 0, 0.95);
         border-radius: 8px;
-        width: 200px;
-        text-align: right;
+        width: auto; /* 不限制寬度 */
+        text-align: center; /* 置中顯示選項 */
         padding: 10px;
-        z-index: 999; /* 確保選單在漢堡按鈕下面 */
+        z-index: 99998; /* 讓選單也比所有內容前面 */
+    }
+
+    /* 確保選單展開時不會被覆蓋 */
+    nav.active {
+        display: flex;
     }
 
     nav a {
-        display: block;
+        display: inline-block; /* 使用行內塊元素使選項水平排列 */
         padding: 12px;
         font-size: 18px;
+        color: white;
+        text-decoration: none;
     }
 
-    /* 顯示漢堡選單按鈕 */
-    .menu-icon {
-        display: block;
+    nav a:hover {
+        background: rgba(255, 255, 255, 0.2);
     }
 }
 
-/* 關於我們 - 整體樣式 */
+/* 🎯 確保主要內容不會蓋住選單 */
+.main-content {
+    position: relative;
+    z-index: 1; /* 讓內容在選單下方 */
+}
+
+/* 避免其他內容層級比選單高 */
+.main-content,
+.section {
+    position: relative;
+    z-index: 1; /* 確保其他內容在較低層 */
+}
+
+/* 顯示漢堡選單按鈕 */
+.menu-icon {
+    display: block;
+    position: fixed; /* 繼續固定在右上角 */
+    top: 20px;
+    right: 20px;
+    z-index: 99999; /* 確保按鈕永遠在最上層 */
+}
+
+
+
+/* 🎯 關於我們 - 整體樣式 */
 #about {
     background-color: #f8f9fa;
     padding: 50px 10%;
@@ -207,6 +236,7 @@ h2 {
     padding: 50px;
     text-align: center;
 }
+
 
 body {
             font-family: Arial, sans-serif;
